@@ -51,4 +51,23 @@ describe("Android generation", () => {
 			expect(result).toMatchSnapshot();
 		});
 	});
+
+	describe("validation", () => {
+		describe("Matcher<View>", () => {
+			it("should fail with the wrong class", () => {
+				expect(() => {
+					ExampleClass.matcherForAnd("I am a string", "I am one too");
+				}).toThrowErrorMatchingSnapshot();
+			});
+
+			it("should succeed with the 'right' class", () => {
+				class Matcher {} // stub for matcher class
+
+				const m = new Matcher();
+				expect(() => {
+					ExampleClass.matcherForAnd(m, m);
+				}).not.toThrow();
+			});
+		});
+	});
 });
